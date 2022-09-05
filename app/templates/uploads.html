@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% for cat, msg in get_flashed_messages(True) %}
+            <div class="flash {{ cat }} ">{{ msg }}</div>
+        {% endfor %}
+        <form action="{{ url_for('uploads.upload') }}" method="post" enctype="multipart/form-data" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.title.label() }}
+                {{ form.title() }}
+            </div>
+
+            <div class="form-group">
+                {{ form.description.label() }}
+                {{ form.description() }}
+            </div>
+            <div class="form-group">
+             <label class="input-file label_upload_picture d-flex justify-content-center">
+                 {{ form.file() }}
+                 <img src="{{ url_for('static', filename='/img/upload_picture.png') }}" alt="upload_picture" id='imgUpload'>
+             </label>
+             </div>
+            {{ form.submit() }}
+
+		</form>
+    </div>
+{% endblock %}

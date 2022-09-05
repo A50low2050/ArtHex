@@ -1,0 +1,7 @@
+**icons
+**img
+**.idea
+./venv
+**__pycache__
+**app.db
+**jquery-3.6.0.min.js

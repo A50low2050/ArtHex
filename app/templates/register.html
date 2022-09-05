@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+    {% for cat, msg in get_flashed_messages(True) %}
+      <div class="flash {{ cat }} ">{{ msg }}</div>
+    {% endfor %}
+
+    <div class="container">
+             <div class="no_account mb-3 d-flex justify-content-center">
+                    <span class="px-2">Have account?</span><a href="{{ url_for('auth.login') }}">Sign In</a>
+             </div>
+            <hr>
+            <form action="{{ url_for('auth.register') }}" method="post"  novalidate>
+            {{ form.hidden_tag() }}
+            {% for field in form if field.name not in ['csrf_token', 'submit'] -%}
+                <div class="form-group">
+
+                <p>{{ field.label() }}
+                {% if field.errors %}
+
+                    <div class="form-group">
+                        <span class="alert alert-danger">
+                           {% for e in field.errors %}
+                           {{ e }}
+                           {% endfor %}
+                        </span>
+                    </div>
+                    {{ field() }}
+                {% else %}
+                   {{ field() }}
+                {% endif %}
+                </div>
+            {% endfor %}
+                <p>{{ form.submit() }}</p>
+            </form>
+      </div>
+
+{% endblock %}

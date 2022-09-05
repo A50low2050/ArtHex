@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav %}
+     {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<section class="section__user__image">
+ 	
+  <div class="user__image">
+   	<div class="block__user_image">
+   	
+	 <div class="image__title__gallery">
+	  {% if image %}
+		  <span>{{ image.title }}</span>
+	  {% endif %}
+	 </div>
+    
+     <a href="{{ url_for('uploads.download_picture', filename=filename) }}">
+       <img src="{{ url_for('uploads.download_picture', filename=filename) }}" alt="{{filename}}" class="rounded">
+     </a>
+   
+   {% for elem in user_info %}
+   <div class="info__image__user">
+		<div class="user__icon__gallery">
+		  <a href="{{url_for('module.profile') }}" class="link__profile">
+			  <img src="{{ url_for('module.userava') }}" alt="profile">
+			  <span>{{ data_user.login }}</span>
+		  </a>
+		</div>
+		
+		<div class="wrapper__icon__remove">
+			<div class="icon__remove__image">
+				<a href="{{ url_for('removes.delete_image', id_image=id_image) }}">
+				
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20px" height="20px" height="512.000000pt" viewBox="0 0 366.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+
+				<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#fff" stroke="none">
+				<path d="M1317 4480 c-49 -15 -98 -61 -123 -114 -21 -45 -24 -66 -24 -168 l0 -118 -363 0 -363 0 -53 -26 c-97 -49 -135 -135 -129 -289 l3 -80 1430 0 1430 0 3 94 c4 125 -13 176 -79 235 -36 32 -63 47 -100 55 -30 7 -184 11 -389 11 l-340 0 0 123 c0 135 -13 179 -66 229 -61 57 -72 58 -456 57 -194 0 -366 -5 -381 -9z m735 -157 c15 -14 18 -32 18 -130 l0 -113 -375 0 -375 0 0 101 c0 95 9 135 34 151 6 4 161 8 345 8 297 0 336 -2 353 -17z"/>
+				<path d="M564 3437 c-2 -7 -3 -634 -2 -1393 l3 -1380 25 -49 c17 -31 44 -62 75 -85 l49 -35 961 -3 c1061 -3 1006 -6 1075 61 18 17 41 50 51 72 18 38 19 105 19 1433 l0 1392 -1125 0 c-903 0 -1127 -3 -1131 -13z m586 -1467 l0 -1170 -65 0 -65 0 0 1170 0 1170 65 0 65 0 0 -1170z m610 0 l0 -1170 -65 0 -65 0 0 1170 0 1170 65 0 65 0 0 -1170z m610 0 l0 -1170 -65 0 -65 0 0 1170 0 1170 65 0 65 0 0 -1170z"/>
+				</g>
+				</svg>
+				
+				</a>
+			</div>
+		</div>
+   	
+	   	<div class="wrapper__icon__edit">
+			<div class="icon__edit__image">
+				<a href="{{ url_for('updates.edit_image', id=id_image ) }}">
+				
+					<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20px" height="20px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+
+					<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#fff" stroke="none">
+					<path d="M500 5104 c-234 -50 -436 -254 -485 -489 -22 -105 -22 -4005 0 -4110 38 -182 169 -351 336 -433 149 -74 114 -72 1137 -72 l912 0 0 160 0 159 -922 3 -923 3 -63 34 c-70 38 -100 69 -140 145 l-27 51 0 2005 0 2005 27 51 c40 76 70 107 140 145 l63 34 1685 0 1685 0 63 -34 c70 -38 100 -69 140 -145 l27 -51 3 -985 2 -984 160 159 160 160 0 815 c0 915 1 894 -72 1040 -84 167 -252 297 -433 335 -102 21 -3375 21 -3475 -1z"/>
+					<path d="M960 4000 l0 -160 1280 0 1280 0 0 160 0 160 -1280 0 -1280 0 0 -160z"/>
+					<path d="M960 3360 l0 -160 1280 0 1280 0 0 160 0 160 -1280 0 -1280 0 0 -160z"/>
+					<path d="M960 2720 l0 -160 1280 0 1280 0 0 160 0 160 -1280 0 -1280 0 0 -160z"/>
+					<path d="M4485 2547 c-22 -8 -53 -21 -70 -30 -16 -8 -368 -355 -781 -769 -625 -627 -760 -768 -811 -843 -33 -49 -68 -104 -76 -122 -15 -27 -190 -774 -184 -780 2 -1 50 9 107 22 58 13 216 49 353 80 l247 56 158 97 157 97 742 739 c830 827 787 777 788 921 0 122 -18 151 -198 333 -174 175 -217 203 -325 208 -39 2 -84 -2 -107 -9z m-135 -762 l225 -225 -510 -511 c-452 -452 -554 -548 -655 -612 l-26 -16 -208 208 -207 208 47 59 c44 56 1093 1114 1104 1114 3 0 106 -101 230 -225z"/>
+					<path d="M960 2080 l0 -160 640 0 640 0 0 160 0 160 -640 0 -640 0 0 -160z"/>
+					</g>
+					</svg>
+					
+				</a>
+			</div>
+		</div>
+   </div>
+	<div class="image__description__gallery d-flex justify-content-center">
+		{% if image.description %}
+			<hr color='#fff'>
+			<span>{{ image.description }}</span>
+			<hr color='#fff'>	
+		{% endif %}
+	</div>
+    
+   {% endfor %}
+  </div>
+ </div>
+</section>
+   
+{% endblock %}
+
+
+

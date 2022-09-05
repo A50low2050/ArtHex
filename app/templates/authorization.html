@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        {% for cat, msg in get_flashed_messages(True) %}
+            <div class="flash {{ cat }} ">{{ msg }}</div>
+        {% endfor %}
+          <form action="{{ url_for('auth.login') }}" method="post" novalidate>
+              <div class="form-group">
+                <label for="exampleInputLogin">Enter your login</label>
+                <input type="login" class="form-control" id="exampleInputLogin" placeholder="Login" name="login">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Enter your password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                       name="psw">
+              </div>
+               <div class="form-group form-check">
+                   <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember">
+                   <label class="form-check-label" for="exampleCheck1">Remember me</label>
+               </div>
+               <hr>
+                <div class="no_account mb-3 d-flex justify-content-center">
+                    <span class="px-2">No have account?</span><a href="{{ url_for('auth.register') }}">Sign Up</a>
+                </div>
+              <button type="submit" class="btn btn-primary">Sign In</button>
+          </form>
+      </div>
+
+{% endblock %}

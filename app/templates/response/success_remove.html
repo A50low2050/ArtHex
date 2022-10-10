@@ -11,6 +11,6 @@
         <span>You have deleted the image successfully</span>
     </div>
     <div class="d-flex justify-content-center">
-        <a href="{{ url_for('module.profile') }}">My profile</a>
+        <a href="{{ url_for('module.profile', user_login=current_user.login) }}">My profile</a>
     </div>
 {% endblock %}

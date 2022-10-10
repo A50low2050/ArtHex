@@ -9,7 +9,7 @@
 {% block content %}
 <div class="container">
 
-  <form action="{{ url_for('updates.update_image', id=id_image) }}" method="post">
+  <form action="{{ url_for('updates.update_image', user_login=current_user.login, filename=filename) }}" method="post">
     <div class="form-group">
       <label for="InputTitle">Title</label>
       <input type="text" class="form-control" id="InputTitle" name="title" value="{{ title }}">

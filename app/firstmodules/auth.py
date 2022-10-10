@@ -24,7 +24,8 @@ def login():
 
         if user and check_password_hash(user.password, password):
             login_user(user, remember=remember_choose)
-            return redirect(url_for('module.profile'))
+
+            return redirect(url_for('module.profile', user_login=user.login))
         else:
             flash('invalid login/password pair', category='alert alert-danger')
             return redirect(url_for('auth.login'))
@@ -58,8 +59,8 @@ def register():
             db.session.flush()
 
             profiles = Profiles(user_id=user.id)
-
             db.session.add(profiles)
+
             db.session.commit()
 
             return render_template('response/success.html', title='success')

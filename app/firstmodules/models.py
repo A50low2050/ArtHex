@@ -28,5 +28,7 @@ class Pictures(db.Model):
     filename = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.Text, unique=False, nullable=False)
 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
     def __repr__(self):
         return f'<pictures {self.id}>'

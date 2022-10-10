@@ -38,20 +38,18 @@
               {% endif %}
 
               {% if current_user.is_authenticated %}
-                {% for elem in user_info %}
                 <ul class="navbar-nav ml-auto">
                   <li class="nav-item">
-                      <span class="nav-link">{{ elem.login }}</span>
+                      <span class="nav-link">{{ current_user.login }}</span>
                   </li>
 
                   <li class="nav-item dropdown align-self-center">
-                      <a href="{{ url_for('module.profile') }}"><img src="{{ url_for('module.userava') }}" alt="profile" width="35px" height="35px"></a>
+                      <a href="{{ url_for('module.profile', user_login=current_user.login) }}"><img src="{{ url_for('module.userava') }}" alt="profile" width="35px" height="35px"></a>
 <!--                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
 <!--                      <a class="dropdown-item nav-item" href="{{ url_for('module.logout') }}">Exit</a>-->
 <!--                    </div>-->
                  </li>
                 </ul>
-                {% endfor %}
               {% endif %}
             </ul>
           </div>

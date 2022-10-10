@@ -13,7 +13,7 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav mr-auto w-100">
           <li class="nav-item">
-              <form action="{{ url_for('uploads.upload') }}" class="form-download-picture">
+              <form action="{{ url_for('uploads.sumbission') }}" class="form-download-picture">
                    <button class="btn__send__photo btn__style">
 					<img src="{{ url_for('static', filename='/img/plus.png') }}" alt="plus" width="25px" id='download_picture'>
 					<span>Send photo</span>
@@ -89,22 +89,21 @@
 {% if user_pictures %}
 <section class="gallery__section">
 	<div class="row">
-	{% for elem in user_pictures %}
+    {% for picture in user_pictures %}
 		<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 block__images">
-			<a href="{{url_for('uploads.gallery', id=elem.id) }}" class="links__images">
-			  <img src="{{ url_for('uploads.download_picture', filename=elem.filename) }}" alt="{{ elem.filename }}" class="img-fluid">
+			<a href="{{url_for('uploads.gallery', user_login=data_user.login, filename=picture.filename) }}" class="links__images">
+			  <img src="{{ url_for('uploads.download_picture', filename=picture.filename) }}" alt="{{ picture.filename }}" class="img-fluid">
 			</a>
-			
 			<div class="info__image">
 	          <div class="user__icon">
-				<a href="{{url_for('module.profile') }}" class="link__profile_1">
+				<a href="{{url_for('module.profile', user_login=data_user.login ) }}" class="link__profile_1">
 				  <img src="{{ url_for('module.userava') }}" alt="profile">
 				  <span>{{ data_user.login }}</span>
 				</a>
 	          </div>
-	           
+
 	          <div class="image__title">
-	          	<span>{{elem.title }}</span>
+	          	<span>{{picture.title }}</span>
 	          </div>
 		    </div>
 	   </div>

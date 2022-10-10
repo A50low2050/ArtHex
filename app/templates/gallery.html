@@ -18,23 +18,21 @@
 		  <span>{{ image.title }}</span>
 	  {% endif %}
 	 </div>
-    
      <a href="{{ url_for('uploads.download_picture', filename=filename) }}">
        <img src="{{ url_for('uploads.download_picture', filename=filename) }}" alt="{{filename}}" class="rounded">
      </a>
-   
-   {% for elem in user_info %}
+
    <div class="info__image__user">
 		<div class="user__icon__gallery">
-		  <a href="{{url_for('module.profile') }}" class="link__profile">
+		  <a href="{{url_for('module.profile', user_login=current_user.login ) }}" class="link__profile">
 			  <img src="{{ url_for('module.userava') }}" alt="profile">
-			  <span>{{ data_user.login }}</span>
+			  <span>{{ current_user.login }}</span>
 		  </a>
 		</div>
 		
 		<div class="wrapper__icon__remove">
 			<div class="icon__remove__image">
-				<a href="{{ url_for('removes.delete_image', id_image=id_image) }}">
+				<a href="{{ url_for('removes.delete_image', user_login=current_user.login, filename=filename) }}">
 				
 				<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20px" height="20px" height="512.000000pt" viewBox="0 0 366.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
@@ -50,7 +48,7 @@
    	
 	   	<div class="wrapper__icon__edit">
 			<div class="icon__edit__image">
-				<a href="{{ url_for('updates.edit_image', id=id_image ) }}">
+				<a href="{{ url_for('updates.edit_image', user_login=current_user.login, filename=filename ) }}">
 				
 					<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="20px" height="20px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
@@ -75,8 +73,6 @@
 			<hr color='#fff'>	
 		{% endif %}
 	</div>
-    
-   {% endfor %}
   </div>
  </div>
 </section>

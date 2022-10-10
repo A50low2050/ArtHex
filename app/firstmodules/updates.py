@@ -6,9 +6,9 @@ from app.database import db
 updates = Blueprint('updates', __name__)
 
 
-@updates.route('/edit/<int:id>')
-def edit_image(id):
-    images = Pictures.query.filter_by(id=id).first()
+@updates.route('/edit/<path:user_login>/<path:filename>')
+def edit_image(user_login, filename):
+    images = Pictures.query.filter_by(filename=filename).first()
 
     title = images.title
     description = images.description
@@ -23,9 +23,9 @@ def edit_image(id):
     )
 
 
-@updates.route('/update/<int:id>', methods=['GET', 'POST'])
-def update_image(id):
-    image = Pictures.query.filter_by(id=id).first()
+@updates.route('/update/<path:user_login>/<path:filename>', methods=['GET', 'POST'])
+def update_image(user_login, filename):
+    image = Pictures.query.filter_by(filename=filename).first()
 
     user_info = Users.query.all()
     data_user = Users.query.first()
@@ -38,7 +38,7 @@ def update_image(id):
         title = request.form['title']
         description = request.form['description']
 
-        images = Pictures.query.filter_by(id=id).update({
+        images = Pictures.query.filter_by(filename=filename).update({
             'title': title,
             'description': description,
         })

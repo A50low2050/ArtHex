@@ -12,32 +12,29 @@ module = Blueprint('module', __name__)
 @module.route('/')
 def index():
     if current_user.is_authenticated:
-        return redirect(url_for('module.profile'))
+        return redirect(url_for('module.profile', user_login=current_user.login))
 
     return render_template('authorization.html', title='authorization')
 
 
-@module.route('/profile')
-@login_required
-def profile():
-    user_info = Users.query.all()
-    data_user = Users.query.first()
+@module.route('/profile/<path:user_login>')
+def profile(user_login):
+    data_user = Users.query.filter_by(login=user_login).first()
+    user_pictures = Pictures.query.filter_by(user_id=current_user.id).all()
 
-    user_pictures = Pictures.query.all()
-    count_content = Pictures.query.count()
+    count_content = Pictures.query.filter_by(user_id=current_user.id).count()
 
-    return render_template('profile.html', title='Мой профиль',
-                           user_info=user_info,
+    return render_template('profile.html',
                            data_user=data_user,
                            user_pictures=user_pictures,
                            count_content=count_content,
-    )
+                           title='profile',)
 
 
 @module.route('/userava')
 def userava():
     img = None
-    profiles = Profiles.query.first()
+    profiles = Profiles.query.filter_by(user_id=current_user.id).first()
     avatar = profiles.image
 
     if avatar is None:
@@ -61,13 +58,14 @@ def update_avatar():
         avatar = request.files['file']
 
         if not avatar:
-            return redirect(url_for('module.profile'))
+            return redirect(url_for('module.profile', user_login=current_user.login))
 
-        update_avatar = Profiles.query.first()
+        update_avatar = Profiles.query.filter_by(user_id=current_user.id).first()
+
         update_avatar.image = avatar.read()
         db.session.commit()
 
-    return redirect(url_for('module.profile'))
+    return redirect(url_for('module.profile', user_login=current_user.login))
 
 
 @module.route('/logout')

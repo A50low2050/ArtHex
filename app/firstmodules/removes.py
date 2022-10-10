@@ -11,15 +11,15 @@ app = get_app()
 app.config['UPLOAD_FOLDER'] = Config.UPLOAD_FOLDER
 
 
-@removes.route('/delete_image/<int:id_image>')
-def delete_image(id_image):
-    image = Pictures.query.filter_by(id=id_image).first()
+@removes.route('/delete_image/<path:user_login>/<path:filename>')
+def delete_image(user_login, filename):
+    image = Pictures.query.filter_by(filename=filename).first()
     user_info = Users.query.all()
     filename = image.filename
 
     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-    image = Pictures.query.filter_by(id=id_image).delete()
+    image = Pictures.query.filter_by(filename=filename).delete()
     db.session.commit()
 
     return render_template('response/success_remove.html', title=filename, user_info=user_info)

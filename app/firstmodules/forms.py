@@ -5,7 +5,7 @@ from wtforms.validators import Length, Email, DataRequired, EqualTo
 
 
 class FormRegister(FlaskForm):
-    login = StringField('Login', validators=[Length(min=5, max=15)], render_kw={
+    login = StringField('Login', validators=[Length(min=1, max=15)], render_kw={
         'class': 'form-control',
         'placeholder': 'Enter Login',
     })

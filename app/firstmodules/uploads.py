@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask import send_from_directory
+from flask_login import current_user
 from config import Config
 from werkzeug.utils import secure_filename
 import os
@@ -19,10 +20,9 @@ def allowed_files(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
 
 
-@uploads.route('/upload', methods=['GET', 'POST'])
-def upload():
+@uploads.route('/sumbission', methods=['POST', 'GET'])
+def sumbission():
     form = FormUploadImage()
-    user_info = Users.query.all()
 
     if form.validate_on_submit():
         if 'file' not in request.files:
@@ -41,10 +41,10 @@ def upload():
             description = request.form['description']
 
             try:
-                pictures = Pictures(title=title, description=description, filename=filename)
+                pictures = Pictures(title=title, description=description, filename=filename, user_id=current_user.id)
                 db.session.add(pictures)
                 db.session.commit()
-                return redirect(url_for('module.profile'))
+                return redirect(url_for('module.profile', user_login=current_user.login))
 
             except exc.IntegrityError:
                 flash('You already have this is image', category='alert alert-danger')
@@ -52,29 +52,25 @@ def upload():
 
         else:
             flash('You have selected the wrong file resolution', category='alert alert-danger')
-            return redirect(request.url)
+            return redirect(request.base_url)
 
-    return render_template('uploads.html', title='Download Picture', form=form, user_info=user_info)
+    return render_template('uploads.html', title='Download Picture', form=form)
 
 
-@uploads.route('/upload/<filename>')
+@uploads.route('/sumbission/<filename>')
 def download_picture(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
-@uploads.route('/gallery/<int:id>')
-def gallery(id):
-    image = Pictures.query.filter_by(id=id).first()
-    user_info = Users.query.all()
-    data_user = Users.query.first()
+@uploads.route('/gallery/<path:user_login>/<path:filename>')
+def gallery(user_login, filename):
+    image = Pictures.query.filter_by(filename=filename).first()
 
     filename = image.filename
     id_image = image.id
 
     return render_template('gallery.html', title=filename,
                            filename=filename,
-                           user_info=user_info,
                            image=image,
                            id_image=id_image,
-                           data_user=data_user
     )
